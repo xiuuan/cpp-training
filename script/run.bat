@@ -1,14 +1,9 @@
 @echo off
-pushd .
-
-if not exist build/tests/training_main.exe (
-	echo "training_main.exe not exists!"
-	popd
-	exit(1)
+setlocal
+set "EXE=%~dp0..\build\tests\training_main.exe"
+if not exist "%EXE%" (
+	echo training_main.exe not exists! Please build first.
+	exit /b 1
 )
-
-cd build/tests
-
-training_main.exe
-
-popd
+"%EXE%"
+exit /b %errorlevel%
