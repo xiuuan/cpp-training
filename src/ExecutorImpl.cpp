@@ -1,5 +1,5 @@
-#include "ExecutorImpl.hpp" 
-#include<memory>
+#include "ExecutorImpl.hpp"
+#include <memory>
 namespace adas
 {
 
@@ -16,15 +16,16 @@ ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose)
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     for (const auto cmd : commands) {
-        if (cmd == 'M') {
-            std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
-            cmder->DoOperate(*this);
-        } else if (cmd == 'L') {
-            std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
-            cmder->DoOperate(*this);
-        } else if (cmd == 'R') {
-            std::unique_ptr<TurnRightCommand> cmder = std::make_unique<TurnRightCommand>();
-            cmder->DoOperate(*this);
+        std::unique_ptr<ICommand> cmder;
+        if (cmd == 'M')
+            cmder = std::make_unique<MoveCommand>();
+        else if (cmd == 'L')
+            cmder = std::make_unique<TurnLeftCommand>();
+        else if (cmd == 'R')
+            cmder = std::make_unique<TurnRightCommand>();
+
+        if (cmder) {
+            cmder->DoOperate(*this);  // ← 只有这一句，不管来的是谁
         }
     }
 }

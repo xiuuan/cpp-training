@@ -48,7 +48,7 @@ private:
         void DoOperate(ExecutorImpl& executor) const noexcept override
         {
             executor.TurnRight();  
-        };
+        }
     };
 
     Pose pose;
