@@ -23,7 +23,8 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
             cmder = std::make_unique<TurnLeftCommand>();
         else if (cmd == 'R')
             cmder = std::make_unique<TurnRightCommand>();
-
+        else if (cmd == 'F')
+            cmder = std::make_unique<FastCommand>();
         if (cmder) {
             cmder->DoOperate(*this);  // ← 只有这一句，不管来的是谁
         }
@@ -76,4 +77,15 @@ Pose ExecutorImpl::Query() const noexcept
 {
     return pose;
 }
+
+void ExecutorImpl::Fast() noexcept
+{
+    fast = !fast;
+}
+
+bool ExecutorImpl::IsFast() const noexcept
+{
+    return fast;
+}
+
 }// namespace adas
